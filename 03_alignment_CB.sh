@@ -7,22 +7,13 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate cavefish_popgen
 
-## directories
-### indir=/home/mcgaughs/aherman/RIS_work/caballo_renamed_raw_fastqs
-### indir=/home/mcgaughs/shared/Datasets/outlier_analysis/aligned_fq
-### indir=/home/mcgaughs/shared/Datasets/outlier_analysis/aligned_fq
+export IN_DIR
+export OUT_DIR
+export HOME
 
-indir=/home/mcgaughs/shared/Datasets/RAW_NGS/Caballo_Moro_trimmed_fq
-outdir=/home/mcgaughs/shared/Datasets/bams/v1_cavefish_Caballo_Moro
-#### outdir=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/alignments
-## outdir=/home/mcgaughs/shared/Datasets/outlier_analysis/bams ### change to this
-## fqdir=/panfs/roc/groups/14/mcgaughs/grossj
-refdir=/home/mcgaughs/jtmiller/amex_genomes
-
-## Global environmental variables
-. /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
 # define $VER if running this script alone in the qsub command for submission
-indir=/home/mcgaughs/shared/Datasets/Reads_ready_to_align/Caballo_Moro
+. /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
+export $ref
 
 echo $PBS_ARRAYID
 
@@ -78,7 +69,7 @@ outfile=${outdir}/${root}_${VER}_sorted.bam
 
 echo $outfile
 
-#JEFF TODO?JEFF TODO?JEFF TODO?unpaired reads were included in all the other samples- so we need to address this here. 
+#JEFF TODO?JEFF TODO?JEFF TODO?unpaired reads were included in all the other samples- so we need to address this here.
 #Sue wants to include unpaired reads, if this was done already with Adam's
 ## going to work
 ###bwa mem -t "$NCT" -k 12 -M -R $RG $ref $fq1 $fq2 | \ ### Alignment

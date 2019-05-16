@@ -27,6 +27,7 @@ fi
 ################################################################################
 ### Put output directory here
 HOME=/home/mcgaughs/jtmiller/process_all_popgen
+SHARED=
 
 mkdir $HOME/error_out
 mkdir $HOME/metadata
@@ -36,19 +37,27 @@ mkdir $HOME/raw_fastqc_reports
 ## V2_Surface Genome ###########################################################
 
 qsub \
- -l mem=62gb \
+ -l mem=120gb \
  -l nodes=1:ppn=24 \
  -l walltime=8:00:00 \
- -q mesabi \
- ${CO}/CODE/01_fastqc.sh ###mesabi
+ -q cavefish \
+ -v HOME=/home/mcgaughs/jtmiller/process_all_popgen \
+ -v OUT_DIR=$HOME/raw_fastqc_reports \
+ -v IN_DIR=$SHARED/ (RAW FASTQ DIR) \
+ ${HOME}/pipeline/01_fastqc.sh
 
+### Requires sample name map. Tab delimited two column file with "*.fastq   {sample_name}"
 qsub \
  -t 1-8 \
  -l mem=21gb \
- -l nodes=1:ppn=6 \
+ -l nodes=1:ppn=24 \
  -l walltime=8:00:00 \
- -q mesabi \
- ${CO}/CODE/02_quality_trim_CB_B.sh ###mesabi
+ -q cavefish \
+ -v SAMPMAP=$HOME/metadata/sample_map.txt \
+ -v HOME=/home/mcgaughs/jtmiller/popgen/ \
+ -v OUT_DIR=$SHARED/(shared trimmed fq folder) \
+ -v IN_DIR=$SHARED/(shared raw fq folder) \
+ ${HOME}/pipeline/02_quality_trim_CB_B.sh
 
 qsub \
  -t 1-23 \
@@ -57,8 +66,25 @@ qsub \
  -l mem=62gb \
  -l nodes=1:ssd:ppn=12 \
  -l walltime=48:00:00 \
- -q sb \
- ${CO}/CODE/03_alignment.sh)
+ -q cavefish
+ -v HOME=/home/mcgaughs/jtmiller/popgen/ \
+ -v IN_DIR= (shared trimmed fq folder) \
+ -v OUT_DIR= (shared bam dir) \
+ -v VER=surface \
+ ${HOME}/pipeline/03_alignment.sh)
+
+
+indir=/home/mcgaughs/shared/Datasets/RAW_NGS/Caballo_Moro_trimmed_fq
+outdir=/home/mcgaughs/shared/Datasets/bams/v1_cavefish_Caballo_Moro
+#### outdir=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/alignments
+## outdir=/home/mcgaughs/shared/Datasets/outlier_analysis/bams ### change to this
+## fqdir=/panfs/roc/groups/14/mcgaughs/grossj
+refdir=/home/mcgaughs/jtmiller/amex_genomes
+
+
+
+
+
 
 ### Generate Gvcfs
 qsub \
