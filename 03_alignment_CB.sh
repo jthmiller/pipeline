@@ -73,7 +73,9 @@ echo "READ GROUP"
 echo $RG
 
 ## scratch and out file names
-outfile=${outdir}/${root}_$VER.bam
+#
+outfile=${outdir}/${root}_${VER}_sorted.bam
+
 echo $outfile
 
 #JEFF TODO?JEFF TODO?JEFF TODO?unpaired reads were included in all the other samples- so we need to address this here. 
@@ -83,9 +85,9 @@ echo $outfile
 ###samblaster -M | \ #### dups/split reads with -M for compatibility with picard
 ###samtools view -hbu - | samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp > $outfile
 
-bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 | ### Alignment
-samblaster -M |  #### dups/split reads with -M for compatibility with picard
-samtools view -hbu - > $SCRDIR/$root.unsorted.bam
-samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp $SCRDIR/$root.unsorted.bam > $outfile
+bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 \ ### Alignment
+| samblaster -M \ #### dups/split reads with -M for compatibility with picard
+| samtools view -hbu - \
+| samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp $SCRDIR/$root.unsorted.bam > $outfile
 
 echo "Done"
