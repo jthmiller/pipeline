@@ -13,7 +13,7 @@
 
 HOME=/home/mcgaughs/jtmiller/popgen/
 TRIM_DIR=/panfs/roc/groups/14/mcgaughs/smcgaugh/tools/Trimmomatic-0.30/
-OUT_DIR=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/qual_trim_fq/
+OUT_DIR=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/qual_trim_fq/ #change to /panfs/roc/groups/14/mcgaughs/shared/Datasets/Reads_ready_to_align
 DIR=/panfs/roc/groups/14/mcgaughs/grossj/
 # modules
 module load parallel/20160822
