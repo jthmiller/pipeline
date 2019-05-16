@@ -22,7 +22,7 @@ module load java/jdk1.7.0_45
 # list of samples put in outdir
 find $DIR -name *fq.gz | awk '{print $9}' FS="\/|_" | sed 's/[1:2].fq.gz//g' | uniq > ${OUT_DIR}Esc_Jin_samp_List.txt
 # bash function for applying trimmomatic with gnu parallel
-
+#output name convention: population_sample#
 partrim() {
 	#sample basename from the paired_basenames.txt file
 	BASE=${1}
