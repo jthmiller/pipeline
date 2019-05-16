@@ -17,12 +17,10 @@ export $ref
 
 echo $PBS_ARRAYID
 
-## Finds all the forward fq in DIR _adtrim_trim_pair_R1
-## fq1=$(ls "$shar"/*_adtrim_trim_pair_R1.fastq | sed -n "${PBS_ARRAYID}p") ## just for missed alignments
+smpl=$(sed -n "${PBS_ARRAYID}p" $SAMPMAP | awk '{print $2}')
 
-sed -n "${PBS_ARRAYID}p"
-
-fq1=$(ls "$indir"/_trim_pair_R1.fastq.gz | )
+## Paired reads
+fq1=$(ls "${IN_DIR}"/*_trim_pair_R1.fastq.gz | grep $smpl)
 ##### fq1=$(find $indir -name *_adtrim_trim_pair_R1.fastq.gz | sed -n "${PBS_ARRAYID}p")
 fq2=$(echo $fq1 | sed 's/_R1/_R2/')
 
@@ -58,6 +56,8 @@ echo "$SAMP" "$INST" "$RUN" "$FCID" "$LANE"
 #?should be zcat line for parsing? JEFF TODO?
 ## Set RG info
 ##### SBC=$(echo "$root" | awk -F"_" 'BEGIN{OFS="\t"}{print $2}') ## Sample barcode
+## GET FASTQ HEADER
+FQHEADER=$(zgrep -m 1 '^@' "$fq1")
 
 SBC=$(echo "$root" | awk -F"_" 'BEGIN{OFS="\t"}{print $2}') ## Sample barcode
 ID=$(echo "$FCID.$LANE") ## {FLOWCELL_BARCODE}.{LANE}
@@ -72,20 +72,28 @@ echo $RG
 
 ## scratch and out file names
 #
-outfile=${outdir}/${root}_${VER}_sorted.bam
+out_pair=${outdir}/${root}_${VER}_paired_sorted.bam
+out_unpaired=${outdir}/${root}_${VER}_sorted.bam
 
-echo $outfile
+echo $out_pair
+echo $out_unpair
 
-#JEFF TODO?JEFF TODO?JEFF TODO?unpaired reads were included in all the other samples- so we need to address this here.
-#Sue wants to include unpaired reads, if this was done already with Adam's
-## going to work
-###bwa mem -t "$NCT" -k 12 -M -R $RG $ref $fq1 $fq2 | \ ### Alignment
-###samblaster -M | \ #### dups/split reads with -M for compatibility with picard
-###samtools view -hbu - | samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp > $outfile
+#### dups/split reads with -M for compatibility with picard
 
-bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 \ ### Alignment
-| samblaster -M \ #### dups/split reads with -M for compatibility with picard
+### PAIRED READS ###############################################################
+bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 \
+| samblaster -M \
 | samtools view -hbu - \
-| samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp $SCRDIR/$root.unsorted.bam > $outfile
+| samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp > $out_pair
+################################################################################
+
+### UNPAIRED ###################################################################
+cat $fq1up $fq2up ${SCRDIR}/${root}_unpaired.fq
+
+bwa mem -t "${NCT}" -k 12 -M -R $RG $ref ${SCRDIR}/${root}_unpaired.fq \
+| samblaster -M \
+| samtools view -hbu - \
+| samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp > $out_unpair
+################################################################################
 
 echo "Done"
