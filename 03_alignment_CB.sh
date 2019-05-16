@@ -21,7 +21,7 @@ refdir=/home/mcgaughs/jtmiller/amex_genomes
 
 ## Global environmental variables
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
-
+# define $VER if running this script alone in the qsub command for submission
 indir=/home/mcgaughs/shared/Datasets/Reads_ready_to_align/Caballo_Moro
 
 echo $PBS_ARRAYID
