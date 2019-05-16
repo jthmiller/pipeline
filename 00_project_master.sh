@@ -53,12 +53,13 @@ qsub \
  -l nodes=1:ppn=24 \
  -l walltime=8:00:00 \
  -q cavefish \
+ -v HOME=/home/mcgaughs/jtmiller/process_all_popgen \
  -v SAMPMAP=$HOME/metadata/sample_map.txt \
- -v HOME=/home/mcgaughs/jtmiller/popgen/ \
  -v OUT_DIR=$SHARED/(shared trimmed fq folder) \
  -v IN_DIR=$SHARED/(shared raw fq folder) \
  ${HOME}/pipeline/02_quality_trim_CB_B.sh
 
+#### Requires VER to be specified as 'surface' or 'cave'
 qsub \
  -t 1-23 \
  -v VER="surface" \
@@ -66,25 +67,13 @@ qsub \
  -l mem=62gb \
  -l nodes=1:ssd:ppn=12 \
  -l walltime=48:00:00 \
- -q cavefish
+ -q cavefish \
  -v HOME=/home/mcgaughs/jtmiller/popgen/ \
- -v IN_DIR= (shared trimmed fq folder) \
- -v OUT_DIR= (shared bam dir) \
+ -v SAMPMAP=$HOME/metadata/sample_map.txt \
+ -v IN_DIR=$SHARED/ (shared trimmed fq folder) \
+ -v OUT_DIR=$SHARED/ (shared bam dir) \
  -v VER=surface \
  ${HOME}/pipeline/03_alignment.sh)
-
-
-indir=/home/mcgaughs/shared/Datasets/RAW_NGS/Caballo_Moro_trimmed_fq
-outdir=/home/mcgaughs/shared/Datasets/bams/v1_cavefish_Caballo_Moro
-#### outdir=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/alignments
-## outdir=/home/mcgaughs/shared/Datasets/outlier_analysis/bams ### change to this
-## fqdir=/panfs/roc/groups/14/mcgaughs/grossj
-refdir=/home/mcgaughs/jtmiller/amex_genomes
-
-
-
-
-
 
 ### Generate Gvcfs
 qsub \
@@ -94,7 +83,7 @@ qsub \
  -l nodes=1:ssd:ppn=12 \
  -l walltime=14:00:00 \
  -q mesabi \
-${CO}/CODE/04_genotypes_gvcf_jineo_escon.sh)
+${CO}/CODE/04_genotypes_gvcf.sh)
 
 #### Make a sample map for GATK (see meta_files.sh #############################
 
