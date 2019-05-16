@@ -7,6 +7,7 @@
 #PBS -q mesabi
 #PBS -N generating_fastqc_reports
 
+#This takes every fastq file in the DIR and runs fastqc on it.
 #	The home folder
 export HOME=/home/mcgaughs/jtmiller/popgen/cavefish_RIS/
 # The fastq
