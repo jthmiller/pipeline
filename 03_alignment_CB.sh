@@ -21,7 +21,7 @@ refdir=/home/mcgaughs/jtmiller/amex_genomes
 
 ## Global environmental variables
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
-
+# define $VER if running this script alone in the qsub command for submission
 indir=/home/mcgaughs/shared/Datasets/Reads_ready_to_align/Caballo_Moro
 
 echo $PBS_ARRAYID
@@ -33,19 +33,20 @@ fq1=$(ls "$indir"/*_L2*_adtrim_trim_pair_R1.fastq.gz | sed -n "${PBS_ARRAYID}p")
 ##### fq1=$(find $indir -name *_adtrim_trim_pair_R1.fastq.gz | sed -n "${PBS_ARRAYID}p")
 fq2=$(echo $fq1 | sed 's/_R1/_R2/')
 #### root sample name
-
+## the fq2 calls the fq1 and simply replaces "R1" with "R2"
 echo $fq1
 echo $fq2
 
 ###names
 root=$(basename $fq1 | sed 's/_adtrim_trim_pair_R1\.fastq\.gz//')
 echo $root
-
+#we also need to name these as population_sample#
 ## Save fq header
 FQID=$(zcat "$fq1" | head -n1)
 ## Read group of each fastq
 ####SAMP=$(echo $root | awk -F"_" '{print $1}')
 
+## still renaming below:
 SAMP=$(echo $root | awk -F"_" '{print $1"_"$2}')
 INST=$(echo "$FQID" | awk -F":" 'BEGIN{OFS="\t"}{print $1}') ## Insturment ID
 RUN=$(echo "$FQID" | awk -F":" 'BEGIN{OFS="\t"}{print $2}') ## internal run number
@@ -55,6 +56,8 @@ LANE=$(echo "$FQID" |awk -F":" 'BEGIN{OFS="\t"}{print $4}') ## Lane ID 1 or 2
 echo "SAMP" "INST" "RUN" "FCID" "LANE"
 echo "$SAMP" "$INST" "$RUN" "$FCID" "$LANE"
 
+
+#?should be zcat line for parsing? JEFF TODO?
 ## Set RG info
 ##### SBC=$(echo "$root" | awk -F"_" 'BEGIN{OFS="\t"}{print $2}') ## Sample barcode
 
@@ -70,17 +73,21 @@ echo "READ GROUP"
 echo $RG
 
 ## scratch and out file names
-outfile=${outdir}/${root}_$VER.bam
+#
+outfile=${outdir}/${root}_${VER}_sorted.bam
+
 echo $outfile
 
+#JEFF TODO?JEFF TODO?JEFF TODO?unpaired reads were included in all the other samples- so we need to address this here. 
+#Sue wants to include unpaired reads, if this was done already with Adam's
 ## going to work
 ###bwa mem -t "$NCT" -k 12 -M -R $RG $ref $fq1 $fq2 | \ ### Alignment
 ###samblaster -M | \ #### dups/split reads with -M for compatibility with picard
 ###samtools view -hbu - | samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp > $outfile
 
-bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 | ### Alignment
-samblaster -M |  #### dups/split reads with -M for compatibility with picard
-samtools view -hbu - > $SCRDIR/$root.unsorted.bam
-samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp $SCRDIR/$root.unsorted.bam > $outfile
+bwa mem -t "${NCT}" -k 12 -M -R $RG $ref $fq1 $fq2 \ ### Alignment
+| samblaster -M \ #### dups/split reads with -M for compatibility with picard
+| samtools view -hbu - \
+| samtools sort -m $MEG -@ $NCT -o - -T $SCRDIR/$root.tmp $SCRDIR/$root.unsorted.bam > $outfile
 
 echo "Done"

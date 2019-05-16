@@ -7,10 +7,13 @@
 #PBS -q batch
 #PBS -N par_trim
 ## 12 cores 128GB PBS -q mcgaugh
+#PBS -o /home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/genotypes/gvcfs/er_out/$PBS_JOBNAME.$PBS_JOBID.out
+#PBS -e /home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/genotypes/gvcfs/er_out/$PBS_JOBNAME.$PBS_JOBID.err
+
 
 HOME=/home/mcgaughs/jtmiller/popgen/
 TRIM_DIR=/panfs/roc/groups/14/mcgaughs/smcgaugh/tools/Trimmomatic-0.30/
-OUT_DIR=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/qual_trim_fq/
+OUT_DIR=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/qual_trim_fq/ #change to /panfs/roc/groups/14/mcgaughs/shared/Datasets/Reads_ready_to_align
 DIR=/panfs/roc/groups/14/mcgaughs/grossj/
 # modules
 module load parallel/20160822
@@ -19,7 +22,7 @@ module load java/jdk1.7.0_45
 # list of samples put in outdir
 find $DIR -name *fq.gz | awk '{print $9}' FS="\/|_" | sed 's/[1:2].fq.gz//g' | uniq > ${OUT_DIR}Esc_Jin_samp_List.txt
 # bash function for applying trimmomatic with gnu parallel
-
+#output name convention: population_sample#
 partrim() {
 	#sample basename from the paired_basenames.txt file
 	BASE=${1}
