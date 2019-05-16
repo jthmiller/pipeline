@@ -20,9 +20,16 @@ echo $PBS_ARRAYID
 ## Finds all the forward fq in DIR _adtrim_trim_pair_R1
 ## fq1=$(ls "$shar"/*_adtrim_trim_pair_R1.fastq | sed -n "${PBS_ARRAYID}p") ## just for missed alignments
 
-fq1=$(ls "$indir"/*_L2*_adtrim_trim_pair_R1.fastq.gz | sed -n "${PBS_ARRAYID}p")
+sed -n "${PBS_ARRAYID}p"
+
+fq1=$(ls "$indir"/_trim_pair_R1.fastq.gz | )
 ##### fq1=$(find $indir -name *_adtrim_trim_pair_R1.fastq.gz | sed -n "${PBS_ARRAYID}p")
 fq2=$(echo $fq1 | sed 's/_R1/_R2/')
+
+## Unpaired reads
+fq1up=$(echo $fq1 | sed 's/_trim_pair_/_trim_unpair_/')
+fq2up=$(echo $fq2 | sed 's/_trim_pair_/_trim_unpair_/')
+
 #### root sample name
 ## the fq2 calls the fq1 and simply replaces "R1" with "R2"
 echo $fq1

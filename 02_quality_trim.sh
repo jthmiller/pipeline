@@ -41,3 +41,5 @@ export -f partrim
  parallel --joblog ${OUT_DIR}/trimmomatic_parallel_logfile.txt partrim
 
 echo 'DONE'
+
+### Both paired and orphaned reads are aligned in 03_alignment
