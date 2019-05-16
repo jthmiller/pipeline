@@ -7,6 +7,9 @@
 #PBS -q batch
 #PBS -N par_trim
 ## 12 cores 128GB PBS -q mcgaugh
+#PBS -o /home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/genotypes/gvcfs/er_out/$PBS_JOBNAME.$PBS_JOBID.out
+#PBS -e /home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/genotypes/gvcfs/er_out/$PBS_JOBNAME.$PBS_JOBID.err
+
 
 HOME=/home/mcgaughs/jtmiller/popgen/
 TRIM_DIR=/panfs/roc/groups/14/mcgaughs/smcgaugh/tools/Trimmomatic-0.30/
