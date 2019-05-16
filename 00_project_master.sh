@@ -25,7 +25,12 @@ source activate cavefish_popgen
 fi
 ################################################################################
 ################################################################################
+### Put output directory here
+HOME=/home/mcgaughs/jtmiller/process_all_popgen
 
+mkdir $HOME/error_out
+mkdir $HOME/metadata
+mkdir $HOME/raw_fastqc_reports
 
 ################################################################################
 ## V2_Surface Genome ###########################################################

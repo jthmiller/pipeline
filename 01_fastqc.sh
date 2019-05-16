@@ -1,11 +1,11 @@
 #!/bin/bash
-#PBS -l mem=62gb,nodes=1:ppn=24,walltime=2:00:00
+#PBS -l mem=62gb,nodes=1:ppn=24,walltime=8:00:00
 #PBS -A mcgaughs
-#PBS -m abe
-#PBS -j oe
-#PBS -M jtmiller@umn.edu
 #PBS -q mesabi
 #PBS -N generating_fastqc_reports
+#PBS -e /home/mcgaughs/jtmiller/process_all_popgen/error_out/$PBS_ARRAYID.$PBS_JOBID.err
+#PBS -o /home/mcgaughs/jtmiller/process_all_popgen/error_out/$PBS_ARRAYID.$PBS_JOBID.out
+
 
 #This takes every fastq file in the DIR and runs fastqc on it.
 #	The home folder
@@ -19,11 +19,12 @@ module load parallel
 #	since it is the same for each file, and we don't want to keep repeating
 
 parfastqc() {
-	#samples read from the glob below
-	SAMP=${1}
+  #samples read from the glob below
 
-	#run fastqc
-	fastqc ${SAMP} -o ${HOME}raw_fastqc_reports -q
+ SAMP=$(grep "${1}" $HOME/metadata/fastq_sampleID.txt | awk '{print $2}')
+
+ #run fastqc
+ fastqc ${SAMP} -o ${HOME}/raw_fastqc_reports -q
 }
 #   Export function so we can call it with parallel
 export -f parfastqc
