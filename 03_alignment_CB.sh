@@ -24,6 +24,7 @@ refdir=/home/mcgaughs/jtmiller/amex_genomes
 # define $VER if running this script alone in the qsub command for submission
 indir=/home/mcgaughs/shared/Datasets/Reads_ready_to_align/Caballo_Moro
 
+#echo is used for debugging and gets written to the oe files
 echo $PBS_ARRAYID
 
 ## Finds all the forward fq in DIR _adtrim_trim_pair_R1
