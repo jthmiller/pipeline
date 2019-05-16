@@ -24,7 +24,8 @@ parfastqc() {
  SAMP=$(grep "${1}" $HOME/metadata/fastq_sampleID.txt | awk '{print $2}')
 
  #run fastqc
- fastqc ${SAMP} -o ${HOME}/raw_fastqc_reports -q
+ fastqc ${SAMP} --outdir=${HOME}/raw_fastqc_reports -q
+
 }
 #   Export function so we can call it with parallel
 export -f parfastqc
