@@ -20,7 +20,7 @@ conda config --add channels bioconda
 conda config --add channels conda-forge
 
 ### Conda env with versioned software
-conda create -n cavefish_popgen samblaster bwa==0.7.4 samtools picard==2.3.0 vcftools bedtools plink tabix gatk4=4.1.0.0 bcftools
+conda create -n cavefish_popgen samblaster fastqc bwa==0.7.4 samtools picard==2.3.0 vcftools bedtools plink tabix gatk4=4.1.0.0 bcftools
 source activate cavefish_popgen
 fi
 ################################################################################
