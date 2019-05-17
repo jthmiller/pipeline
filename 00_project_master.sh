@@ -83,18 +83,12 @@ qsub \
  -l nodes=1:ssd:ppn=12 \
  -l walltime=14:00:00 \
  -q mesabi \
-${CO}/CODE/04_genotypes_gvcf.sh)
-
-# Set paths
-## Location of output for large files  (ave. 23GB each)
-outdir=/home/mcgaughs/shared/Datasets/outlier_analysis/gvcf_gz
-## RAM drive. Load in compressed bam file for reading (ave. 12GB each)
-##indir=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/alignments
-indir=/home/mcgaughs/shared/Datasets/outlier_analysis/bams
-## Directory containing the fastqs that were aligned
-fqdir=/home/mcgaughs/aherman/RIS_work/caballo_renamed_raw_fastqs/adapt_qual_trim
-## ref director
-refdir=/home/mcgaughs/jtmiller/amex_genomes
+ -v HOME=/home/mcgaughs/jtmiller/popgen/ \
+ -v SCRDIR=/scratch.global/jtmiller \
+ -v IN_DIR=$SHARED/ (shared trimmed fq folder) \
+ -v OUT_DIR=$SHARED/ (shared bam dir) \
+ -v VER=surface \
+ ${HOME}/pipeline/04_genotypes_gvcf.sh)
 
 
 #### Make a sample map for GATK (see meta_files.sh #############################
@@ -103,7 +97,12 @@ refdir=/home/mcgaughs/jtmiller/amex_genomes
 ## Total intervals: 4668, 1 tourqe job per interval ############################
 
 qsub -t 1-1750 \
- -v VER="surface",NCT="1",HEAP='-Xmx6G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx6G' \
+ -v VER="surface" \
+ -v NCT="1" \
+ -v HEAP='-Xmx6G' \
+ -v SCRDIR='/scratch.global/jtmiller' \
+ -v TMPDIR='/scratch.local' \
+ -v _JAVA_OPTIONS='-Xmx6G' \
  -l mem=8gb -l nodes=1:ppn=2 -l walltime=24:00:00 \
  -q mesabi ${CO}/CODE/06_genotypes_vcf.sh
 

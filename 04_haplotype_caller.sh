@@ -20,16 +20,16 @@ export TMPDIR="/scratch.local"
 ### A will be L230 MOLNG1_S1
 ### B will be L289 MOLNG2_S1
 
-samp=$(find $indir -name '*_L230[1-9]*_surface.bam' | xargs -n 1 basename | \
+samp=$(find $IN_DIR -name '*_L230[1-9]*_surface.bam' | xargs -n 1 basename | \
 	awk -F'_' 'BEGIN{OFS="_"}{print $1,$2,$3}' | sort | uniq | sed -n "${PBS_ARRAYID}p")
 
 echo "working on sample $samp"
 
-bams=$(find $indir -name "${samp}*${VER}.bam")
+bams=$(find $IN_DIR -name "${samp}*${VER}.bam")
 
 
 #echo "copying bams to $TMPDIR"
-#find $indir -name "$samp"_*_"$VER".bam -exec cp -v {} $TMPDIR/ \;
+#find $IN_DIR -name "$samp"_*_"$VER".bam -exec cp -v {} $TMPDIR/ \;
 #ls -ltrh $TMPDIR
 ##samtools merge "$TMPDIR/temp_$samp.bam" "$TMPDIR"/"$samp"_*_"$VER".bam
 ###basebam=$(ls $TMPDIR/${samp}_*_${VER}.bam | xargs -n 1 basename)
@@ -92,8 +92,8 @@ java "${HEAP}" -jar /panfs/roc/msisoft/gatk/3.7.0/GenomeAnalysisTK.jar\
 
 wait
 
-bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${outdir}/${sampnew}".g.vcf.gz
-tabix -p vcf "${outdir}/${sampnew}".g.vcf.gz
+bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${OUT_DIR}/${sampnew}".g.vcf.gz
+tabix -p vcf "${OUT_DIR}/${sampnew}".g.vcf.gz
 
 wait
 
