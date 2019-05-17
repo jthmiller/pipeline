@@ -97,14 +97,14 @@ java "${HEAP}" -jar /panfs/roc/msisoft/gatk/3.7.0/GenomeAnalysisTK.jar\
 
 wait
 
-bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${OUT_DIR}/${sampnew}".g.vcf.gz
-tabix -p vcf "${OUT_DIR}/${sampnew}".g.vcf.gz
+bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${OUT_DIR}/${sampnew}".g.vcf.bgz
+tabix -p vcf "${OUT_DIR}/${sampnew}".g.vcf.bgz
 
 wait
 
 ## Cleanup
 ##rm $SCRDIR/"${PBS_SERVER}"_${sampnew}.g.vcf.gz
-rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam"
+rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam" #Sue wants for all samples, #unmapped bam file, and mapped bam file
 rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam.bai"
 
 echo -n "Done: "
