@@ -34,19 +34,6 @@ bedtools makewindows -b ~/amex_genomes/GCF_000372685.2_Astyanax_mexicanus-2.0_ge
 ### Make intervals for GATK ###################################################
 ################################################################################
 
-
-### Make a plink ID file from plinks output ####################################
-################################################################################
-awk -F'_| ' '{print $1,$1"_"$2,$1"_cave"}' surface_masked_indel3.test.fam > surface_masked_indel3.within
-plink --vcf "${outdir}"/"${VER}"_masked_indel3.test.vcf.gz --out ${plinkdir}/"${VER}"_masked_indel3.test \
- --make-bed --allow-extra-chr --autosome-num 24 --allow-no-sex --double-id \
- --within ~/popgen/cavefish_outliers/notes/surface_masked_indel3.within --write-cluster
-
-awk -F'_| ' '{print $1,$1"_"$2,$1"_cave"}' surface_masked_indel3.test.fam > surface_masked_indel3.within
-awk -F' ' '{print "0",$2,$3}' ~/popgen/cavefish_outliers/notes/surface_masked_indel3.within > ~/popgen/cavefish_outliers/notes/surface_masked_indel3.within.contID
-## Make a plink ID file from plinks output #####################################
-################################################################################
-
 ### make list of non-empty interval vcfs #######################################
 ################################################################################
  inters=$(awk '{print $1":"$2"-"$3}' "${ref%\.fna}.windows.200KB.bed")
