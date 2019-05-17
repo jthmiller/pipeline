@@ -86,7 +86,7 @@ which gatk
 java "${HEAP}" -jar /panfs/roc/msisoft/gatk/3.7.0/GenomeAnalysisTK.jar\
 	-T HaplotypeCaller\
 	-R "${ref}"\
-	-I "${TMPDIR}"/"${PBS_SERVER}"_"${samp}".bam\
+	-I "${TMPDIR}"/"${PBS_SERVER}"_"${samp}".bam\ . #please annotate this so Sue feels better that bams don't get merged across samples on accident.
 	-o "${SCRDIR}"/"${PBS_SERVER}"_"${sampnew}".g.vcf\
 	-nct "${NCT}"\
 	--genotyping_mode DISCOVERY\
