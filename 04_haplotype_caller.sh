@@ -12,19 +12,9 @@ source activate cavefish_popgen
 ## include option for java to designate the scratch location and the amount of
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
 
-# Set paths
-## Location of output for large files  (ave. 23GB each)
-outdir=/home/mcgaughs/shared/Datasets/outlier_analysis/gvcf_gz
-## RAM drive. Load in compressed bam file for reading (ave. 12GB each)
-##indir=/home/mcgaughs/jtmiller/popgen/cavefish_outliers/data/alignments
-indir=/home/mcgaughs/shared/Datasets/outlier_analysis/bams
-## Directory containing the fastqs that were aligned
-fqdir=/home/mcgaughs/aherman/RIS_work/caballo_renamed_raw_fastqs/adapt_qual_trim
-## ref director
-refdir=/home/mcgaughs/jtmiller/amex_genomes
 
-SCRDIR="/scratch.global/jtmiller"
-TMPDIR="/scratch.local"
+export SCRDIR="/scratch.global/jtmiller"
+export TMPDIR="/scratch.local"
 
 ## ex: S1_CCGTCC_L23073_1_H5K73BCX2_surface.bam
 ### A will be L230 MOLNG1_S1

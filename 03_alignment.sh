@@ -42,7 +42,7 @@ FQID=$(zcat "$fq1" | head -n1)
 ## Read group of each fastq
 ####SAMP=$(echo $root | awk -F"_" '{print $1}')
 
-## still renaming below:
+## still renaming below
 SAMP=$(echo $root | awk -F"_" '{print $1"_"$2}')
 INST=$(echo "$FQID" | awk -F":" 'BEGIN{OFS="\t"}{print $1}') ## Insturment ID
 RUN=$(echo "$FQID" | awk -F":" 'BEGIN{OFS="\t"}{print $2}') ## internal run number
