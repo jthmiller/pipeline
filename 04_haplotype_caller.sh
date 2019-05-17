@@ -90,10 +90,10 @@ java "${HEAP}" -jar /panfs/roc/msisoft/gatk/3.7.0/GenomeAnalysisTK.jar\
 	-o "${SCRDIR}"/"${PBS_SERVER}"_"${sampnew}".g.vcf\
 	-nct "${NCT}"\
 	--genotyping_mode DISCOVERY\
-	--heterozygosity 0.005\
+	--heterozygosity 0.005\ # ? what does this do and do we need to reevaluate it now? 
 	--emitRefConfidence GVCF\
-	-variant_index_type LINEAR\
-	-variant_index_parameter 128000
+	-variant_index_type LINEAR\ # ? what does this do and do we need to reevaluate it now? 
+	-variant_index_parameter 128000 # ? what does this do and do we need to reevaluate it now? 
 
 wait
 
