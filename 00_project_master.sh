@@ -84,12 +84,12 @@ qsub \
  -l walltime=14:00:00 \
  -q mesabi \
  -v HOME=/home/mcgaughs/jtmiller/popgen/ \
+ -v TMPDIR=/scratch.local \
  -v SCRDIR=/scratch.global/jtmiller \
  -v IN_DIR=$SHARED/ (shared trimmed fq folder) \
  -v OUT_DIR=$SHARED/ (shared bam dir) \
  -v VER=surface \
  ${HOME}/pipeline/04_genotypes_gvcf.sh)
-
 
 #### Make a sample map for GATK (see meta_files.sh #############################
 

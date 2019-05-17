@@ -7,9 +7,10 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate cavefish_popgen
 
+export SAMPMAP
 export IN_DIR
 export OUT_DIR
-export HOME
+export VER
 
 # define $VER if running this script alone in the qsub command for submission
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER

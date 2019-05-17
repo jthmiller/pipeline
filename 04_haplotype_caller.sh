@@ -13,8 +13,13 @@ source activate cavefish_popgen
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
 
 
-export SCRDIR="/scratch.global/jtmiller"
-export TMPDIR="/scratch.local"
+export HOME
+export TMPDIR
+export SCRDIR
+export IN_DIR
+export OUT_DIR
+export VER
+
 
 ## ex: S1_CCGTCC_L23073_1_H5K73BCX2_surface.bam
 ### A will be L230 MOLNG1_S1
