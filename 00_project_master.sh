@@ -78,7 +78,7 @@ qsub \
 ### Generate Gvcfs
 qsub \
  -t 1-13 \
- -v VER="surface",SCRDIR=/scratch.ssd,TMPDIR=/dev/shm,_JAVA_OPTIONS="-Djava.io.tmpdir=/dev/shm -Xmx15g",NCT=12 \
+ -v VER="surface" \
  -l mem=31gb \
  -l nodes=1:ssd:ppn=12 \
  -l walltime=14:00:00 \
@@ -88,8 +88,10 @@ qsub \
  -v SCRDIR=/scratch.global/jtmiller \
  -v IN_DIR=$SHARED/ (shared trimmed fq folder) \
  -v OUT_DIR=$SHARED/ (shared bam dir) \
+ -v _JAVA_OPTIONS="-Djava.io.tmpdir=/dev/shm -Xmx15g" \
+ -v NCT=12 \
  -v VER=surface \
- ${HOME}/pipeline/04_genotypes_gvcf.sh)
+ ${HOME}/pipeline/04_genotypes_gvcf.sh
 
 #### Make a sample map for GATK (see meta_files.sh #############################
 
