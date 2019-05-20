@@ -38,6 +38,12 @@ partrim() {
 #   Export function so we can call it with parallel
 export -f partrim
 
+
+### Trimmomatic min-length is not a ratio that needs to pass (50/100), it is a
+## hard cutoff to put minlength the same between all reads.
+
+
+
  parallel --joblog ${OUT_DIR}/trimmomatic_parallel_logfile.txt partrim
 
 echo 'DONE'
