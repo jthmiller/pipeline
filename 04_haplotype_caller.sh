@@ -86,25 +86,25 @@ which gatk
 java "${HEAP}" -jar /panfs/roc/msisoft/gatk/3.7.0/GenomeAnalysisTK.jar\
 	-T HaplotypeCaller\
 	-R "${ref}"\
-	-I "${TMPDIR}"/"${PBS_SERVER}"_"${samp}".bam\
+	-I "${TMPDIR}"/"${PBS_SERVER}"_"${samp}".bam\ . #please annotate this so Sue feels better that bams don't get merged across samples on accident.
 	-o "${SCRDIR}"/"${PBS_SERVER}"_"${sampnew}".g.vcf\
 	-nct "${NCT}"\
 	--genotyping_mode DISCOVERY\
-	--heterozygosity 0.005\
+	--heterozygosity 0.005\ # ? what does this do and do we need to reevaluate it now? 
 	--emitRefConfidence GVCF\
-	-variant_index_type LINEAR\
-	-variant_index_parameter 128000
+	-variant_index_type LINEAR\ # ? what does this do and do we need to reevaluate it now? 
+	-variant_index_parameter 128000 # ? what does this do and do we need to reevaluate it now? 
 
 wait
 
-bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${OUT_DIR}/${sampnew}".g.vcf.gz
-tabix -p vcf "${OUT_DIR}/${sampnew}".g.vcf.gz
+bgzip -f -c "${SCRDIR}/${PBS_SERVER}"_"${sampnew}".g.vcf > "${OUT_DIR}/${sampnew}".g.vcf.bgz
+tabix -p vcf "${OUT_DIR}/${sampnew}".g.vcf.bgz
 
 wait
 
 ## Cleanup
 ##rm $SCRDIR/"${PBS_SERVER}"_${sampnew}.g.vcf.gz
-rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam"
+rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam" #Sue wants for all samples, #unmapped bam file, and mapped bam file
 rm "$TMPDIR/"${PBS_SERVER}"_${samp}.bam.bai"
 
 echo -n "Done: "
