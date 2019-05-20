@@ -59,23 +59,3 @@ bcftools index "${outdir}/${chr}.vcf.gz"
 
 echo -n "Done: "
 date
-
-###auto queue for cavefish
-#if [ "$PBS_O_QUEUE" = "cavefish" ] && [ "$PBS_ARRAYID" -eq 1999 ]
-#then
-#	qsub -t 2000-2249 -v VER="surface",NCT="2",HEAP='-Xmx4G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx4G' -l mem=5gb -l nodes=1:ppn=2 -l walltime=1:00:00 -q cavefish ${CO}/CODE/06_genotypes_vcf_cf_autoqueue.sh
-#elif [ "$PBS_O_QUEUE" = "cavefish" ] && [ "$PBS_ARRAYID" -eq 2249 ]
-#then
-#	qsub -t 2250-2499 -v VER="surface",NCT="2",HEAP='-Xmx4G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx4G' -l mem=5gb -l nodes=1:ppn=2 -l walltime=1:00:00 -q cavefish ${CO}/CODE/06_genotypes_vcf_cf_autoqueue.sh
-#elif [ "$PBS_O_QUEUE" = "cavefish" ] && [ "$PBS_ARRAYID" -eq 2499 ]
-#then
-#	qsub -t 2500-2749 -v VER="surface",NCT="2",HEAP='-Xmx4G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx4G' -l mem=5gb -l nodes=1:ppn=2 -l walltime=1:00:00 -q cavefish ${CO}/CODE/06_genotypes_vcf_cf_autoqueue.sh
-#elif [ "$PBS_O_QUEUE" = "cavefish" ] && [ "$PBS_ARRAYID" -eq 2749 ]
-#then
-#	qsub -t 2750-2999 -v VER="surface",NCT="2",HEAP='-Xmx4G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx4G' -l mem=5gb -l nodes=1:ppn=2 -l walltime=1:00:00 -q cavefish ${CO}/CODE/06_genotypes_vcf_cf_autoqueue.sh
-#elif [ "$PBS_O_QUEUE" = "small" ] && [ "$PBS_ARRAYID" -eq 1750 ]
-#then
-#	qsub -t 3000-3500 -v VER="surface",NCT="2",HEAP='-Xmx4G',SCRDIR='/scratch.global/jtmiller',TMPDIR='/scratch.local',_JAVA_OPTIONS='-Xmx4G' -l mem=6gb -l nodes=1:ppn=2 -l walltime=24:00:00 -q mesabi ${CO}/CODE/06_genotypes_vcf.sh
-#else
-#	echo "next chr"
-#fi
