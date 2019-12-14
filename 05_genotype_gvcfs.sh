@@ -7,12 +7,13 @@
 ## Conda project environment
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate cavefish_popgen
+SHARE=/home/mcgaughs/shared/Datasets/Miller_outlier_analysis
 
-### Set paths
-indir=/home/mcgaughs/shared/Datasets/Miller_outlier_analysis/gvcf_gz
-outdir=/home/mcgaughs/shared/Datasets/Miller_outlier_analysis/interval_gvcf
-refdir=/home/mcgaughs/jtmiller/amex_genomes
-metadir=/home/mcgaughs/shared/Datasets/Miller_outlier_analysis/metadata
+### Set paths to shared data
+indir=$SHARE/gvcf_gz
+outdir=$SHARE/interval_gvcf
+metadir=$SHARE/metadata
+refdir=$HOME/amex_genomes
 
 ## Global environmental variables
 . /home/mcgaughs/jtmiller/popgen/cavefish_outliers/CODE/settings_gatk.sh $VER
